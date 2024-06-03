@@ -13,12 +13,49 @@ date: "June 10 2024"
 
 [![Benjamin Nowak: Trash Wheel Analysis](vis1.jpg)](https://github.com/BjnNowak/TidyTuesday/blob/main/trash_wheel.R)
 
-Benjamin uses the "MoMAColors" and "MetBrewer" packages to add color palattes inspired by artwork to his project, "ggstream" to create his figure, which is known as a stream plot, and "patchwork" to easily combine plots. He cleans the data using drop_na to remove rows with missing values and lubridate to modify dates, then converts the number of each type of trash found to its total weight; the data frame contains columns for date, trash wheel, type of trash, weight, and total number of trash objects. He uses geom_stream to generate most of his plot, geom_vline to create vertical lines denoting years, and geom_textbox to add an annotation.
+Benjamin uses the "MoMAColors" and "MetBrewer" packages to add color palates 
+inspired by artwork to his project. These packages have palates based on works 
+from the Museum of Modern Art and the the Metropolitan Museum of Art in New 
+York. He "ggstream" to create his figure, which is a variation of a stacked area
+chart known as a stream plot, and "patchwork" to easily combine plots. He cleans
+the  data using drop_na to remove rows with missing values and lubridate to 
+modify dates. Afterwards, he converts the number of each type of trash found to
+its total weight. The data frame contains columns for date, trash wheel, 
+type of trash, weight, and total number of trash objects. He uses geom_stream to
+generate most of his plot and geom_vline to create vertical lines denoting the
+years covered in the data. To add the annotation under the "Gwynda Trash Wheel" 
+section of the plot, he uses geom_textbox.
 
 [![Nikos Pechlivanis: National Distribution of Canada's Hockey Players](vis2.jpg)](https://github.com/npechl/TidyTuesday/blob/master/R/2024-01-09/2024-01-09_Canadian_Hockey_Player_Birth_Months.R)
 
-Nikos uses the "stringr" package to make working with strings easier, "data.table" to improve upon base R's data frame structure, and "rnaturalearth", "rnaturalearthdata", and "rnaturalearthhires" to map data onto map visuals, as well as "ggrepel" to prevent overlapping text labels in ggplot. The data are cleaned by grouping players according to birth country and province (for players born in Canada) - there are multiple data frames: one for all NHL players, giving their name, birthday, and place of birth and another for only Canadian players, giving their province of birth.. The bar plot uses geom_col, which makes the heights of bars representative of the values of the underlying data instead of count and geom_text to label the bars. The larger plot uses geom_sf to assign data onto the map of Canada and coord_sf to specify the area that should be shown, as well as geom_text_repel to ensure that text does not overlap.
+Nikos uses the "stringr" package to make working with data in the form of 
+strings easier and "data.table" to improve upon base R's data frame structure. 
+In order to use map visuals in his graph and assign data to geographical 
+regions, he uses "rnaturalearth", "rnaturalearthdata", and "rnaturalearthhires".
+To prevent overlapping text labels in his plot, he uses "ggrepel". The data are
+cleaned by grouping players according to birth country and province (for players
+born in Canada). There are multiple data frames; the first contains data for all
+NHL players, giving their name, birthday, and place of birth. The second data 
+frame concerns only Canadian players, giving their province of birth instead of 
+country. The bar plot uses geom_col, which makes the heights of bars 
+representative of the values of the underlying data instead of count and 
+geom_text to label the bars. The larger plot uses geom_sf to assign data onto
+the map of Canada and coord_sf to specify the area that should be shown, as well
+as geom_text_repel to ensure that text does not overlap.
 
 [![Nicola Rennie: Objects Launched Into Space](vis3.jpg)](https://github.com/nrennie/tidytuesday/blob/main/2024/2024-04-23/20240423.R)
 
-Nicola uses "ggimage" to add images to ggplot, "ggforce" to add more plot customization options, and "glue" to insert variables into strings (it is also part of the "stringr" package). She mutates the data to assign each year to a specific angle on the circlular graph and uses pivot_longer and pivot_wider to reformat the data; the frame includes the aggregate number of objects sent into space by all countries by year. She uses geom_circle to create the circular base of the plot, geom_line to plot the lines extending out from the center, geom_point to add a dot to the end of each line, geom_text to add years to each line, and geom_image to add pictures.
+Nicola uses "ggimage" to add images to ggplot and "ggforce" to add more plot 
+customization options. She uses a package called "glue" to insert variables into 
+strings ("glue" is a subset of functions from the larger "stringr" package"). 
+To clean her data, she mutates it to assign each year to a specific angle on the 
+circular graph. In addition, she uses pivot_longer and pivot_wider to reformat 
+the data into a tidier, easier-to-read format. The final data frame includes the
+aggregate number of objects sent into space by all countries by year. She uses
+geom_circle to create the circular axes that form base of the plot and geom_line
+to plot the lines extending out from the center. Then, she uses geom_point to 
+add a dot to the end of each line and geom_image to add the picture of the Earth
+in the center. Finally, she uses geom_text to add the annotations to the 
+circles. This is an essential addition, because the scale of the axes is 
+logarithmic and the data would likely have been misinterpreted without the 
+clarification.
