@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -86,21 +120,109 @@ ul.task-list li input[type="checkbox"] {
 <figcaption>Benjamin Nowak: Trash Wheel Analysis</figcaption>
 </figure>
 </div>
-<p>Benjamin uses the “MoMAColors” and “MetBrewer” packages to add color palates inspired by artwork to his project. These packages have palates based on works from the Museum of Modern Art and the the Metropolitan Museum of Art in New York. He “ggstream” to create his figure, which is a variation of a stacked area chart known as a stream plot, and “patchwork” to easily combine plots. He cleans the data using drop_na to remove rows with missing values and lubridate to modify dates. Afterwards, he converts the number of each type of trash found to its total weight. The data frame contains columns for date, trash wheel, type of trash, weight, and total number of trash objects. He uses geom_stream to generate most of his plot and geom_vline to create vertical lines denoting the years covered in the data. To add annotations to his plot, he uses geom_textbox.</p>
+<p>Benjamin uses the “MoMAColors” and “MetBrewer” packages to add color palates inspired by artwork to his project. These packages have palates based on works from the Museum of Modern Art and the the Metropolitan Museum of Art in New York. He “ggstream” to create his figure, which is a variation of a stacked area chart known as a stream plot, and “patchwork” to easily combine plots. He cleans the data using drop_na to remove rows with missing values and lubridate to modify dates. Afterwards, he converts the number of each type of trash found to its total weight. The data frame contains columns for date, trash wheel, type of trash, weight, and total number of trash objects. He uses geom_stream to generate most of his plot and geom_vline to create vertical lines denoting the years covered in the data. To add the annotation under the “Gwynda Trash Wheel” section of the plot, he uses geom_textbox.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="https://github.com/npechl/TidyTuesday/blob/master/R/2024-01-09/2024-01-09_Canadian_Hockey_Player_Birth_Months.R"><img src="vis2.jpg" class="img-fluid figure-img" alt="Nikos Pechlivanis: National Distribution of Canada’s Hockey Players"></a></p>
 <figcaption>Nikos Pechlivanis: National Distribution of Canada’s Hockey Players</figcaption>
 </figure>
 </div>
-<p>Nikos uses the “stringr” package to make working with strings easier, “data.table” to improve upon base R’s data frame structure, and “rnaturalearth”, “rnaturalearthdata”, and “rnaturalearthhires” to map data onto map visuals, as well as “ggrepel” to prevent overlapping text labels in ggplot. The data are cleaned by grouping players according to birth country and province (for players born in Canada) - there are multiple data frames: one for all NHL players, giving their name, birthday, and place of birth and another for only Canadian players, giving their province of birth.. The bar plot uses geom_col, which makes the heights of bars representative of the values of the underlying data instead of count and geom_text to label the bars. The larger plot uses geom_sf to assign data onto the map of Canada and coord_sf to specify the area that should be shown, as well as geom_text_repel to ensure that text does not overlap.</p>
+<p>Nikos uses the “stringr” package to make working with data in the form of strings easier and “data.table” to improve upon base R’s data frame structure. In order to use map visuals in his graph and assign data to geographical regions, he uses “rnaturalearth”, “rnaturalearthdata”, and “rnaturalearthhires”. To prevent overlapping text labels in his plot, he uses “ggrepel”. The data are cleaned by grouping players according to birth country and province (for players born in Canada). There are multiple data frames; the first contains data for all NHL players, giving their name, birthday, and place of birth. The second data frame concerns only Canadian players, giving their province of birth instead of country. The bar plot uses geom_col, which makes the heights of bars representative of the values of the underlying data instead of count and geom_text to label the bars. The larger plot uses geom_sf to assign data onto the map of Canada and coord_sf to specify the area that should be shown, as well as geom_text_repel to ensure that text does not overlap.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="https://github.com/nrennie/tidytuesday/blob/main/2024/2024-04-23/20240423.R"><img src="vis3.jpg" class="img-fluid figure-img" alt="Nicola Rennie: Objects Launched Into Space"></a></p>
 <figcaption>Nicola Rennie: Objects Launched Into Space</figcaption>
 </figure>
 </div>
-<p>Nicola uses “ggimage” to add images to ggplot, “ggforce” to add more plot customization options, and “glue” to insert variables into strings (it is also part of the “stringr” package). She mutates the data to assign each year to a specific angle on the circlular graph and uses pivot_longer and pivot_wider to reformat the data; the frame includes the aggregate number of objects sent into space by all countries by year. She uses geom_circle to create the circular base of the plot, geom_line to plot the lines extending out from the center, geom_point to add a dot to the end of each line, geom_text to add years to each line, and geom_image to add pictures.</p>
+<p>Nicola uses “ggimage” to add images to ggplot and “ggforce” to add more plot customization options. She uses a package called “glue” to insert variables into strings (“glue” is a subset of functions from the larger “stringr” package”). To clean her data, she mutates it to assign each year to a specific angle on the circular graph. In addition, she uses pivot_longer and pivot_wider to reformat the data into a tidier, easier-to-read format. The final data frame includes the aggregate number of objects sent into space by all countries by year. She uses geom_circle to create the circular axes that form base of the plot and geom_line to plot the lines extending out from the center. Then, she uses geom_point to add a dot to the end of each line and geom_image to add the picture of the Earth in the center. Finally, she uses geom_text to add the annotations to the circles. This is an essential addition, because the scale of the axes is logarithmic and the data would likely have been misinterpreted without the clarification.</p>
+</section>
+<section id="part-2.-make-your-own-visualization-using-your-data" class="level1">
+<h1>Part 2. Make your own visualization using your data</h1>
+<p><strong>a) Update the observations in your data entry</strong></p>
+<p><strong>b) Decide on a type of visualization that best fits the data set</strong></p>
+<p>I will use a heatmap since it can give a holistic view of trends in my data collection.</p>
+<p><strong>c) Sketch your visualization on paper</strong></p>
+<p><img src="vis_sketch.JPG" class="img-fluid"></p>
+<p><strong>d) Code up your sketch!</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#read in packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl) <span class="co"># activating package to analyze excel files</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># activating package to use pipe operator</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(googlesheets4) <span class="co">#read in google sheet data</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MoMAColors) <span class="co">#for color palates</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#import data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">gargle_oauth_email =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>oatmeal <span class="ot">&lt;-</span> <span class="fu">read_sheet</span>(<span class="st">"https://docs.google.com/spreadsheets/d/1-jehYNq2uGv3Dk84BBosJTLBaYldt46AJvlJO098-VI/edit?usp=sharing"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ The googlesheets4 package is using a cached token for
+  'sebastiancox@ucsb.edu'.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Reading from "Data Collection Form".</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Range 'Sheet1'.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#clean data</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>oatmeal_clean <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(oatmeal) <span class="co">#remove blank values</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#order data according to day</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>day_order <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Sun"</span>,<span class="st">"Mon"</span>,<span class="st">"Tue"</span>,<span class="st">"Wed"</span>,<span class="st">"Thu"</span>,<span class="st">"Fri"</span>,<span class="st">"Sat"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>oatmeal_clean<span class="sc">$</span>day <span class="ot">&lt;-</span> <span class="fu">factor</span>(oatmeal_clean<span class="sc">$</span>day, <span class="at">levels =</span> day_order)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>oatmeal_vis <span class="ot">&lt;-</span> oatmeal_clean <span class="sc">%&gt;%</span> </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(time_to_start_min, day, week)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#data visualization</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>min_week <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>max_week <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> oatmeal_vis, </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x =</span> day,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> week,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fill =</span> time_to_start_min)) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>(<span class="at">breaks =</span> min_week<span class="sc">:</span>max_week) <span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_moma_c</span>(<span class="st">"Flash"</span>) <span class="sc">+</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Time Between Waking Up and Eating Breakfast"</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Week of Spring Quarter"</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.minor =</span><span class="fu">element_blank</span>(),</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>          <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"blueviolet"</span>),</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"blueviolet"</span>),</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">"blueviolet"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>),</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">"Courier"</span>),</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>,<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="advanced_data_vis_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 
 </main>
