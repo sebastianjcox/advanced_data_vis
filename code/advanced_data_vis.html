@@ -119,27 +119,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<p><a href="https://github.com/sebastianjcox/advanced_data_vis">GitHub Repository</a></p>
 <section id="part-1.-understand-the-context" class="level1">
 <h1>Part 1. Understand the context</h1>
 <p><strong>a) Learn about tidy tuesday</strong></p>
 <p><strong>b) Dissect someone else’s visualization</strong></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://github.com/BjnNowak/TidyTuesday/blob/main/trash_wheel.R"><img src="vis1.jpg" class="img-fluid figure-img" alt="Benjamin Nowak: Trash Wheel Analysis"></a></p>
+<p><a href="https://github.com/BjnNowak/TidyTuesday/blob/main/trash_wheel.R"><img src="images/vis1.jpg" class="img-fluid figure-img" alt="Benjamin Nowak: Trash Wheel Analysis"></a></p>
 <figcaption>Benjamin Nowak: Trash Wheel Analysis</figcaption>
 </figure>
 </div>
 <p>Benjamin uses the “MoMAColors” and “MetBrewer” packages to add color palates inspired by artwork to his project. These packages have palates based on works from the Museum of Modern Art and the the Metropolitan Museum of Art in New York. He “ggstream” to create his figure, which is a variation of a stacked area chart known as a stream plot, and “patchwork” to easily combine plots. He cleans the data using drop_na to remove rows with missing values and lubridate to modify dates. Afterwards, he converts the number of each type of trash found to its total weight. The data frame contains columns for date, trash wheel, type of trash, weight, and total number of trash objects. He uses geom_stream to generate most of his plot and geom_vline to create vertical lines denoting the years covered in the data. To add the annotation under the “Gwynda Trash Wheel” section of the plot, he uses geom_textbox.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://github.com/npechl/TidyTuesday/blob/master/R/2024-01-09/2024-01-09_Canadian_Hockey_Player_Birth_Months.R"><img src="vis2.jpg" class="img-fluid figure-img" alt="Nikos Pechlivanis: National Distribution of Canada’s Hockey Players"></a></p>
+<p><a href="https://github.com/npechl/TidyTuesday/blob/master/R/2024-01-09/2024-01-09_Canadian_Hockey_Player_Birth_Months.R"><img src="images/vis2.jpg" class="img-fluid figure-img" alt="Nikos Pechlivanis: National Distribution of Canada’s Hockey Players"></a></p>
 <figcaption>Nikos Pechlivanis: National Distribution of Canada’s Hockey Players</figcaption>
 </figure>
 </div>
 <p>Nikos uses the “stringr” package to make working with data in the form of strings easier and “data.table” to improve upon base R’s data frame structure. In order to use map visuals in his graph and assign data to geographical regions, he uses “rnaturalearth”, “rnaturalearthdata”, and “rnaturalearthhires”. To prevent overlapping text labels in his plot, he uses “ggrepel”. The data are cleaned by grouping players according to birth country and province (for players born in Canada). There are multiple data frames; the first contains data for all NHL players, giving their name, birthday, and place of birth. The second data frame concerns only Canadian players, giving their province of birth instead of country. The bar plot uses geom_col, which makes the heights of bars representative of the values of the underlying data instead of count and geom_text to label the bars. The larger plot uses geom_sf to assign data onto the map of Canada and coord_sf to specify the area that should be shown, as well as geom_text_repel to ensure that text does not overlap.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://github.com/nrennie/tidytuesday/blob/main/2024/2024-04-23/20240423.R"><img src="vis3.jpg" class="img-fluid figure-img" alt="Nicola Rennie: Objects Launched Into Space"></a></p>
+<p><a href="https://github.com/nrennie/tidytuesday/blob/main/2024/2024-04-23/20240423.R"><img src="images/vis3.jpg" class="img-fluid figure-img" alt="Nicola Rennie: Objects Launched Into Space"></a></p>
 <figcaption>Nicola Rennie: Objects Launched Into Space</figcaption>
 </figure>
 </div>
@@ -151,55 +152,69 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>b) Decide on a type of visualization that best fits the data set</strong></p>
 <p>I will use a heatmap since it can give a holistic view of trends in my data collection.</p>
 <p><strong>c) Sketch your visualization on paper</strong></p>
-<p><img src="vis_sketch.JPG" class="img-fluid"></p>
+<p><img src="images/vis_sketch.JPG" class="img-fluid"></p>
 <p><strong>d) Code up your sketch!</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#read in packages</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl) <span class="co"># activating package to analyze excel files</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># activating package to use pipe operator</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(googlesheets4) <span class="co">#read in google sheet data</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MoMAColors) <span class="co">#for color palates</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MoMAColors) <span class="co">#for color palates</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here) <span class="co">#file organization</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#import data</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">gargle_oauth_email =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>oatmeal <span class="ot">&lt;-</span> <span class="fu">read_sheet</span>(<span class="st">"https://docs.google.com/spreadsheets/d/1-jehYNq2uGv3Dk84BBosJTLBaYldt46AJvlJO098-VI/edit?usp=sharing"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#clean data</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>oatmeal_clean <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(oatmeal) <span class="co">#remove blank values</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#order data according to day</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>day_order <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Sun"</span>,<span class="st">"Mon"</span>,<span class="st">"Tue"</span>,<span class="st">"Wed"</span>,<span class="st">"Thu"</span>,<span class="st">"Fri"</span>,<span class="st">"Sat"</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>oatmeal_clean<span class="sc">$</span>day <span class="ot">&lt;-</span> <span class="fu">factor</span>(oatmeal_clean<span class="sc">$</span>day, <span class="at">levels =</span> day_order)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>oatmeal_vis <span class="ot">&lt;-</span> oatmeal_clean <span class="sc">%&gt;%</span> </span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(time_to_start_min, day, week)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#options(gargle_oauth_email = TRUE)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#oatmeal &lt;- read_sheet("https://docs.google.com/spreadsheets/d/1-jehYNq2uGv3Dk84BBosJTLBaYldt46AJvlJO098-VI/edit?usp=sharing")</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>oatmeal <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>,<span class="st">"data.csv"</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#clean data</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>oatmeal_clean <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(oatmeal) <span class="co">#remove blank values</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#order data according to day</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>day_order <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Sun"</span>,<span class="st">"Mon"</span>,<span class="st">"Tue"</span>,<span class="st">"Wed"</span>,<span class="st">"Thu"</span>,<span class="st">"Fri"</span>,<span class="st">"Sat"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>oatmeal_clean<span class="sc">$</span>day <span class="ot">&lt;-</span> <span class="fu">factor</span>(oatmeal_clean<span class="sc">$</span>day, <span class="at">levels =</span> day_order)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#select variables needed for data visualization</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>oatmeal_vis <span class="ot">&lt;-</span> oatmeal_clean <span class="sc">%&gt;%</span> </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(time_to_start_min, day, week)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#data visualization</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>min_week <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>max_week <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> oatmeal_vis, </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x =</span> day,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> week,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fill =</span> time_to_start_min)) <span class="sc">+</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>(<span class="at">breaks =</span> min_week<span class="sc">:</span>max_week) <span class="sc">+</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_moma_c</span>(<span class="st">"Flash"</span>) <span class="sc">+</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Time Between Waking Up and Eating Breakfast"</span>,</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Week of Spring Quarter"</span>,</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.minor =</span><span class="fu">element_blank</span>(),</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>          <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"blueviolet"</span>),</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"blueviolet"</span>),</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">"Courier"</span>),</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>,<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"white"</span>),</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">color =</span> <span class="st">"white"</span>),</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"white"</span>))</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#set y-axis limits</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>min_week <span class="ot">&lt;-</span> <span class="dv">3</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>max_week <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> oatmeal_vis, <span class="co">#use cleaned data set</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x =</span> day, <span class="co">#day of week on x axis</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> week, <span class="co">#week of quarter on y axis</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fill =</span> time_to_start_min)) <span class="sc">+</span> <span class="co">#fill according to time elapsed</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="dv">0</span>) <span class="sc">+</span> <span class="co">#display data as tiles</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#display y-axis from low to high values according to predefined limits</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>(<span class="at">breaks =</span> min_week<span class="sc">:</span>max_week) <span class="sc">+</span> </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">#color scheme inspired by Lola Flash's Self-Portrait in the MoMA NYC</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_moma_c</span>(<span class="st">"Flash"</span>) <span class="sc">+</span> </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">#label axes</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Time Between Waking Up and Eating Breakfast"</span>, </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Week of Spring Quarter"</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">""</span>) <span class="sc">+</span> <span class="co">#no x-axis label</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.minor =</span><span class="fu">element_blank</span>(), <span class="co">#remove gridlines</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(), <span class="co">#remove axis ticks</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>, <span class="co">#remove legend</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        <span class="co">#change background colors</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>          <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"blueviolet"</span>),</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"blueviolet"</span>),</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">"Courier"</span>), <span class="co">#change font</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        <span class="co">#center plot title</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"white"</span>),</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="co">#change font colors</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">color =</span> <span class="st">"white"</span>),</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"white"</span>)) <span class="sc">+</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  <span class="co">#add annotation</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="st">"Fri"</span>, <span class="at">y =</span> <span class="dv">4</span>, <span class="at">label =</span> <span class="st">"no data :("</span>, </span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">family =</span> <span class="st">"Courier"</span>)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>plot <span class="co">#display plot</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -208,6 +223,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p><strong>e) Write about your process</strong></p>
+<p>To begin my visualization, I had to remove empty values from my data spreadsheet and reorganize the data so it was ordered by day. Then, I refined the data frame further by keeping only the variables necessary for visualization. I used geom_tile to display each day as a rectangle that could then be colored according to the time elapsed between waking up and breakfast. I was inspired by Benjamin Novak’s use of the MoMAColors package, so I wanted to integrate its colors palates into my final. Initially, I wanted to search for a color palate that was mostly monochromatic so that the chart would be easier to interpret, but I got to learn more about the artwork behind each color set in the process. The visualizations I analyzed used annotate() and geom_textbox() to add annotations to their plot, and I chose annotate() for ease of use. To complement the color palate of the heatmap, I changed the color of the background and then adjusted the font and color of the figure’s text to improve its readability. My visualization shows that I tend to take longest to eat my breakfast on Sundays, likely because I usually have no commitments and can spend more time in bed. I take the least amount of time to eat breakfast on Tuesdays and Thursdays. I have a class at 8AM on those days, so I have to rush to get ready after I wake up.</p>
 </section>
 
 </main>
