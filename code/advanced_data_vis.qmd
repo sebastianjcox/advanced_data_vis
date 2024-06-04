@@ -10,8 +10,6 @@ execute: # for all code chunks
     message: false # do not display messages
 ---
 
-[GitHub Repository](https://github.com/sebastianjcox/advanced_data_vis)
-
 # Part 1. Understand the context
 
 **a) Learn about tidy tuesday**
@@ -50,14 +48,12 @@ library(readxl) # activating package to analyze excel files
 library(tidyverse) # activating package to use pipe operator
 library(googlesheets4) #read in google sheet data
 library(MoMAColors) #for color palates
-library(here) #file organization
 ```
 
 ```{r}
 #import data
-#options(gargle_oauth_email = TRUE)
-#oatmeal <- read_sheet("https://docs.google.com/spreadsheets/d/1-jehYNq2uGv3Dk84BBosJTLBaYldt46AJvlJO098-VI/edit?usp=sharing")
-oatmeal <- read_csv(here("data","data.csv"))
+options(gargle_oauth_email = TRUE)
+oatmeal <- read_sheet("https://docs.google.com/spreadsheets/d/1-jehYNq2uGv3Dk84BBosJTLBaYldt46AJvlJO098-VI/edit?usp=sharing")
 
 #clean data
 oatmeal_clean <- na.omit(oatmeal) #remove blank values
@@ -65,50 +61,34 @@ oatmeal_clean <- na.omit(oatmeal) #remove blank values
 day_order <- c("Sun","Mon","Tue","Wed","Thu","Fri","Sat")
 oatmeal_clean$day <- factor(oatmeal_clean$day, levels = day_order)
 
-#select variables needed for data visualization
 oatmeal_vis <- oatmeal_clean %>% 
   select(time_to_start_min, day, week)
 ```
 
 ```{r}
 #data visualization
-
-#set y-axis limits
-min_week <- 3 
+min_week <- 3
 max_week <- 10
-plot <- ggplot(data = oatmeal_vis, #use cleaned data set
-               aes(x = day, #day of week on x axis
-                   y = week, #week of quarter on y axis
-                   fill = time_to_start_min)) + #fill according to time elapsed
-  geom_tile(color = "white", size = 0) + #display data as tiles
-  #display y-axis from low to high values according to predefined limits
-  scale_y_reverse(breaks = min_week:max_week) + 
-  #color scheme inspired by Lola Flash's Self-Portrait in the MoMA NYC
-  scale_fill_moma_c("Flash") + 
-  #label axes
-  labs(title = "Time Between Waking Up and Eating Breakfast", 
+plot <- ggplot(data = oatmeal_vis, 
+               aes(x = day,
+                   y = week,
+                   fill = time_to_start_min)) +
+  geom_tile(color = "white", size = 0) +
+  scale_y_reverse(breaks = min_week:max_week) +
+  scale_fill_moma_c("Flash") +
+  labs(title = "Time Between Waking Up and Eating Breakfast",
        y = "Week of Spring Quarter",
-       x = "") + #no x-axis label
-  theme(panel.grid.minor =element_blank(), #remove gridlines
+       x = "") +
+  theme(panel.grid.minor =element_blank(),
         panel.grid.major = element_blank(),
-        axis.ticks = element_blank(), #remove axis ticks
-        legend.position = "none", #remove legend
-        #change background colors
+        axis.ticks = element_blank(),
+        legend.position = "none",
           panel.background = element_rect(fill = "blueviolet"),
         plot.background = element_rect(fill = "blueviolet"),
-        text = element_text(family = "Courier"), #change font
-        #center plot title
-        plot.title = element_text(size = 15, hjust = 0.5, color = "white"),
-        #change font colors
+        text = element_text(family = "Courier"),
+        plot.title = element_text(size = 15,hjust = 0.5, color = "white"),
         axis.title = element_text(size = 12, color = "white"),
-        axis.text = element_text(color = "white")) +
-  #add annotation
-  annotate("text", x = "Fri", y = 4, label = "no data :(", 
-           color = "white", size = 2, family = "Courier")
+        axis.text = element_text(color = "white"))
 
-plot #display plot
+plot
 ```
-
-**e) Write about your process**
-
-To begin my visualization, I had to remove empty values from my data spreadsheet and reorganize the data so it was ordered by day. Then, I refined the data frame further by keeping only the variables necessary for visualization. I used geom_tile to display each day as a rectangle that could then be colored according to the time elapsed between waking up and breakfast. I was inspired by Benjamin Novak's use of the MoMAColors package, so I wanted to integrate its colors palates into my final. Initially, I wanted to search for a color palate that was mostly monochromatic so that the chart would be easier to interpret, but I got to learn more about the artwork behind each color set in the process. The visualizations I analyzed used annotate() and geom_textbox() to add annotations to their plot, and I chose annotate() for ease of use. To complement the color palate of the heatmap, I changed the color of the background and then adjusted the font and color of the figure's text to improve its readability. My visualization shows that I tend to take longest to eat my breakfast on Sundays, likely because I usually have no commitments and can spend more time in bed. I take the least amount of time to eat breakfast on Tuesdays and Thursdays. I have a class at 8AM on those days, so I have to rush to get ready after I wake up.
