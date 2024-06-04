@@ -33,5 +33,5 @@
 
 # Rendered output
 
-The rendered .html for this repo is [here]([https://htmlpreview.github.io/?https://github.com/sebastianjcox/advanced_data_vis/blob/main/code/advanced_data_vis.html)).
+The rendered .html for this repo is [here]([https://htmlpreview.github.io/?https://github.com/sebastianjcox/advanced_data_vis/blob/main/code/advanced_data_vis.html).
 
