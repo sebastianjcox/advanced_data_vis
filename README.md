@@ -5,10 +5,6 @@
 
 **Description**: Repo for Advanced Data Visualization Assignment
 
-**Research focus**: examining effects of specific leaf area (mm^2^/g), water treatment (well-watered or drought-stressed), and species on plant mass  
-
-**Data source**: Valliere, Justin; Zhang, Jacqueline; Sharifi, M.; Rundel, Philip (2019). Data from: Can we condition native plants to increase drought tolerance and improve restoration success? [Dataset]. Dryad. https://doi.org/10.5061/dryad.v0861f7  
-
 # Data and file overview
 
 ```
